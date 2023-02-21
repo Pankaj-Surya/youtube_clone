@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from "mongoose"
 //import {PORT,MONGO} from  "./config/serverConfig.js"
 import dotenv from "dotenv";
+import userRoutes from "./routes/users.js"
+
 dotenv.config()
 
 const app = express();
@@ -17,6 +19,8 @@ const connect = ( )=>{
         console.log(err)
     })
 }
+
+app.use("/api/users",userRoutes)
 
 app.listen(PORT,()=>{
     connect()
