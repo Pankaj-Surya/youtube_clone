@@ -3,7 +3,7 @@ import {test} from "../controllers/user.js"
 
 const router = express.Router();    
 
-router.get('/test',test)
+router.get('/',test)
 
 
 export default router;
