@@ -148,9 +148,18 @@ export const search = async (req, res, next) => {
   }
 };
 
+export const getAllVideo = async (req,res,next)=>{
+  try {
+    const videos = await Video.find()
+    res.status(200).json(videos)
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 export const test =  (req,res)=>{
     console.log("test is working")
     res.json("Test comment is working " )
  }
-
 
