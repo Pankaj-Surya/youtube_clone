@@ -28,7 +28,6 @@ export const updateUser =async (req,res,next) => {
     }
 }
 
-
 // delete
 export const deleteUser = async (req,res,next) => {
     // param will get ID
@@ -45,18 +44,16 @@ export const deleteUser = async (req,res,next) => {
     }
 }
 
-
 // get User => channel (video)
-export const getUser =async () => {
+export const getUser =async (req,res,next) => {
     try {
     const user = await User.findById(req.params.id)
     res.status(200).json(user)
     } catch (error) {
-        next(error);
+        console.log(error)
+        //next(error);
     }
 }
-
-
 
 // subscribed
 export const subscribe =async (req, res, next) => {

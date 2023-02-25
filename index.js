@@ -8,7 +8,7 @@ import videoRoutes from "./routes/videos.js"
 import authRoutes from "./routes/auth.js" 
 import cookies from  "cookie-parser"
 import cookieParser from 'cookie-parser';
-
+import cors from 'cors'
 dotenv.config()
 
 const app = express();
@@ -26,6 +26,7 @@ const connect = ( )=>{
 }
 
 //middlewares
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
