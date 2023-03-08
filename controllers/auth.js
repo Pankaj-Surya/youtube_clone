@@ -36,7 +36,7 @@ export const signin = async (req, res, next) => {
     // send cookies
     res.cookie("access_token", token, {
       httpOnly: true,
-    }).status(200).json(others)
+    }).status(200).json({others,access_token : token})
   } catch (error) {
     next(error)
   }
@@ -55,7 +55,8 @@ export const googleAuth = async (req, res, next) => {
           httpOnly: true,
         })
         .status(200)
-        .json(user._doc);
+        .json({others : user._doc,access_token:token });
+      
     } else {
       const newUser = await new User({
         ...req.body,
@@ -72,7 +73,7 @@ export const googleAuth = async (req, res, next) => {
           httpOnly: true,
         })
         .status(200)
-        .json(savedUser._doc);
+        .json({others : savedUser._doc,access_token:token });
       }
 
   } catch (error) {
