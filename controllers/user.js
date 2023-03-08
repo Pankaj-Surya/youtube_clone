@@ -61,11 +61,12 @@ export const subscribe =async (req, res, next) => {
     //1. channel/user :  from params on which video watching 
     //2. verifyToken : give logged in user =>req.user
     const channel = await User.findById(req.params.id)
+    
     const user = await User.findById(req.user.id)
-    console.log("channel : ",channel,"  user : ",user)
+    console.log("channel : ",channel.name,"subscribe","  user : ",user.name)
     //3. update loggedIn user => subsrcibed user array
      await User.findByIdAndUpdate(req.user.id,
-        { $push : {subscribedUsers : req.params.id }})
+        { $addToSet : {subscribedUsers : req.params.id }})
    
     //4. update channel subscriber count
     await User.findByIdAndUpdate(req.params.id,
@@ -84,14 +85,12 @@ export const unsubscribe =async (req, res, next) => {
         //2. verifyToken : give logged in user =>req.user
         const channel = await User.findById(req.params.id)
         const user = await User.findById(req.user.id)
-        console.log("channel : ",channel.name,"  user : ",user.name)
+        console.log("channel : ",channel.name,"unsubscribe","  user : ",user.name)
         //3. update loggedIn user => subsrcibed user array
-       await User.findByIdAndUpdate(req.user.id,
-        { $pull : {subscribedUsers : req.params.id }})
+       await User.findByIdAndUpdate(req.user.id, {$pull : {subscribedUsers : req.params.id }})
        
         //4. update channel subscriber count
-        await User.findByIdAndUpdate(req.params.id,
-          {  $inc : {subscribers: -1  } })
+        await User.findByIdAndUpdate(req.params.id,{$inc : {subscribers: -1  } })
     
           res.status(200).json("Unsubscription successfull.")
         } catch (error) {

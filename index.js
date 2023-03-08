@@ -6,8 +6,7 @@ import userRoutes from "./routes/users.js"
 import commentRoutes from "./routes/comments.js"
 import videoRoutes from "./routes/videos.js"
 import authRoutes from "./routes/auth.js" 
-import cookies from  "cookie-parser"
-import cookieParser from 'cookie-parser';
+import cookieParser from  "cookie-parser"
 import cors from 'cors'
 dotenv.config()
 
@@ -25,10 +24,19 @@ const connect = ( )=>{
     })
 }
 
-//middlewares
-app.use(cors())
-app.use(express.json())
+
+
+const corsOptions = {
+    origin: true , //included origin as true
+    credentials: true, //included credentials as true
+};
+
+app.use(cors(corsOptions));
+//console.log(cookieParser())
 app.use(cookieParser())
+//middlewares
+//app.use(cors())
+app.use(express.json())
 
 app.use("/api/auth",authRoutes)
 app.use("/api/users",userRoutes)
