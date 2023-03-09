@@ -69,13 +69,10 @@ export const subscribe = async (req, res, next) => {
             const user = await User.findById(req.user.id)
             console.log("channel : ", channel.name, "subscribe", "  user : ", user.name)
             const existsUser = await User.find({ subscribedUsers: { $in: req.params.id } }).limit(20);
-
-            if (!existsUser[0]) {
-                await User.findByIdAndUpdate(req.user.id, { $addToSet: { subscribedUsers: req.params.id } });
-                await User.findByIdAndUpdate(req.params.id, { $inc: { subscribers: 1 } });
-            } else {
-                return next(createError(500, "You are already a Subscriber!"));
-            }
+            
+            await User.findByIdAndUpdate(req.user.id, { $addToSet: { subscribedUsers: req.params.id } });
+            await User.findByIdAndUpdate(req.params.id, { $inc: { subscribers: 1 } });
+           
             return res.status(200).json({
                 message: "Subscription successfull"
             });
@@ -101,12 +98,9 @@ export const unsubscribe = async (req, res, next) => {
             try {
                 const existsUser = await User.find({ subscribedUsers: { $in: req.params.id } }).limit(20);
     
-                if (existsUser[0]) {
                     await User.findByIdAndUpdate(req.user.id, { $pull: { subscribedUsers: req.params.id } });
                     await User.findByIdAndUpdate(req.params.id, { $inc: { subscribers: -1 } });
-                } else {
-                    return next(createError(500, "You are not a Subscriber!"));
-                }
+              
                 res.status(200).json({
                     message: "UnSubscribed successfully"
                 });
