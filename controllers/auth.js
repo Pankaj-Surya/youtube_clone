@@ -29,14 +29,14 @@ export const signin = async (req, res, next) => {
 
     if (!isCorrect) return next(createError(400, "Wrong Credentials!"));
 
-    const accessToken = jwt.sign({ id: user._id }, process.env.JWT,{ expiresIn: '1h' })
+    const token  = jwt.sign({ id: user._id }, process.env.JWT,{ expiresIn: '1h' })
 
    //Generate an access token
   
    const { password, ...others } = user._doc;
 
     // send cookies
-    res.cookie("access_token",accessToken,{httpOnly:true}).status(200).json({others,accessToken})
+    res.cookie("access_token",token,{httpOnly:true}).status(200).json({others,access_token : token })
   } catch (error) {
     next(error)
   }
